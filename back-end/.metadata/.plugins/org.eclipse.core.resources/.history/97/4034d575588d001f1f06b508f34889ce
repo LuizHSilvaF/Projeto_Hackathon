@@ -1,0 +1,46 @@
+package com.hacka.entities;
+
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_portfolio")
+public class Portfolio {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String titulo;
+
+    @ManyToMany
+    private List<Tag> tag;
+
+    private String link;
+
+    @Lob
+    private String descricao;
+
+    private String nomeImagem; // Guarda o nome ou caminho relativo da imagem
+
+    @ManyToOne
+    private Usuario criador;
+
+    public String getNomeImagem() {
+        return nomeImagem;
+    }
+
+    public void setNomeImagem(String nomeImagem) {
+        this.nomeImagem = nomeImagem;
+    }
+
+    // Demais Getters e Setters...
+}

@@ -1,0 +1,5 @@
+package com.hacka.entities;
+
+public class Usuario {
+
+}

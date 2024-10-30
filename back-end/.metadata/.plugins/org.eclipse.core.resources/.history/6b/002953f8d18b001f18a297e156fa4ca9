@@ -1,0 +1,18 @@
+package com.hacka.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hacka.entities.Portfolio;
+import com.hacka.repositories.PortfolioRepository;
+
+@Service
+public class PortfolioService {
+
+	@Autowired
+	private PortfolioRepository repo;
+	
+	public Portfolio criarPortfolio(Portfolio portfolio) {
+		return repo.save(portfolio);
+	}
+}

@@ -1,0 +1,23 @@
+package com.hacka.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hacka.entities.Usuario;
+import com.hacka.services.UsuarioService;
+
+@RestController
+@RequestMapping(value = "/usuarios")
+public class UsuarioController {
+
+	@Autowired
+	private UsuarioService service;
+	
+	@PostMapping("/criarUsuario")
+	public Usuario criarUsuario(@RequestBody Usuario usuario){
+		return service.criarUsuario(usuario);
+	}
+}

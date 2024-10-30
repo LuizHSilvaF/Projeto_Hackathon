@@ -1,0 +1,62 @@
+package com.hacka.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.hacka.dto.PortfolioDTO;
+import com.hacka.entities.Portfolio;
+import com.hacka.services.PortfolioService;
+
+@RestController
+@RequestMapping("/portfolios")
+@CrossOrigin(origins = "http://localhost:5173")
+public class PortfolioController {
+
+    @Autowired
+    private PortfolioService service;
+
+    @PostMapping("/criarPortfolio")
+    public ResponseEntity<Portfolio> criarPortfolio(
+            @RequestPart("portfolio") PortfolioDTO portfolioDTO, // Recebe o JSON
+            @RequestPart("imagem") MultipartFile imagem) {        // Recebe a imagem separadamente
+
+        try {
+            byte[] imagemBytes = imagem.getBytes(); // Converte imagem para byte[]
+            Portfolio portfolio = service.criarPortfolio(
+                    portfolioDTO.getTitulo(),
+                    portfolioDTO.getLink(),
+                    portfolioDTO.getDescricao(),
+                    portfolioDTO.getCriador(),
+                    portfolioDTO.getTags(),
+                    imagemBytes
+            );
+            return ResponseEntity.ok(portfolio);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build(); // Retorna 400 em caso de erro
+        }
+    }
+
+    @GetMapping("/acharTodos")
+    public List<Portfolio> acharTodos() {
+        return service.acharTodos();
+    }
+
+    @GetMapping("/meusProjetos/{id}")
+    public List<Portfolio> meusProjetos(@PathVariable Long id) {
+        return service.meusProjetos(id);
+    }
+
+    @GetMapping("/pesquisaTag/{id}")
+    public List<Portfolio> pesquisaTag(@PathVariable Long id) {
+        return service.pesquisaTag(id);
+    }
+
+    @GetMapping("/abrirProjeto/{id}")
+    public Portfolio abrirProjeto(@PathVariable Long id) {
+        return service.abrirProjeto(id);
+    }
+}

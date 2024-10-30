@@ -1,0 +1,51 @@
+package com.hacka.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hacka.entities.Portfolio;
+import com.hacka.services.PortfolioService;
+
+@RestController
+@RequestMapping("/portfolios")
+public class PortfolioController {
+	
+	@Autowired
+	private PortfolioService service;
+	
+	@PostMapping("/criarPortfolio")
+	public ResponseEntity<Portfolio> criarPortfolio(@RequestBody Portfolio portfolio)
+		{
+		return service.criarPortfolio(portfolio);
+		}
+	
+	
+	@GetMapping("/acharTodos")
+	public List<Portfolio> acharTodos(){
+		return service.acharTodos();
+	}
+	
+	@GetMapping("/meusProjetos/{id}")
+	public List<Portfolio> meusProjetos(@PathVariable Long id){
+		return service.meusProjetos(id);
+	}
+	
+	@GetMapping("pesquisaTag/{id}")
+	public List<Portfolio> pesquisaTag(@PathVariable Long id){
+		return service.pesquisaTag(id);
+	}
+	
+	@GetMapping("abrirProjeto/{id}")
+	public Portfolio abrirProjeto(@PathVariable Long id) {
+		return service.abrirProjeto(id);
+	}
+}

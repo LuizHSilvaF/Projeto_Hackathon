@@ -1,0 +1,9 @@
+package com.hacka.entities;
+
+import java.util.List;
+
+public class Portfolio_Tag {
+
+	private Portfolio portId;
+	private List<Tag> tagId;
+}

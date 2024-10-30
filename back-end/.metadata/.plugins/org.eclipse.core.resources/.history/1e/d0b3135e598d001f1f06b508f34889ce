@@ -1,0 +1,40 @@
+package com.hacka.controllers;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.hacka.dto.PortfolioDTO;
+import com.hacka.entities.Portfolio;
+import com.hacka.services.PortfolioService;
+
+@RestController
+@RequestMapping("/portfolios")
+@CrossOrigin(origins = "http://localhost:5173")
+public class PortfolioController {
+
+    private final PortfolioService service;
+
+    public PortfolioController(PortfolioService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/criarPortfolio")
+    public ResponseEntity<Portfolio> criarPortfolio(@RequestBody PortfolioDTO portfolioDTO) {
+        try {
+            // Cria o portfólio usando os dados recebidos no corpo da requisição
+            Portfolio portfolio = service.criarPortfolio(
+                    portfolioDTO.getTitulo(),
+                    portfolioDTO.getLink(),
+                    portfolioDTO.getDescricao(),
+                    portfolioDTO.getCriadorId(),
+                    portfolioDTO.getTags(),
+                    portfolioDTO.getNomeImagem() // Caminho ou nome da imagem
+            );
+
+            return ResponseEntity.ok(portfolio);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+}

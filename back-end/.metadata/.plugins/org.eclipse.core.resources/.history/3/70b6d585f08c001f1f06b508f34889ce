@@ -1,0 +1,46 @@
+package com.hacka.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hacka.entities.Portfolio;
+import com.hacka.entities.Tag;
+import com.hacka.entities.Usuario;
+import com.hacka.repositories.PortfolioRepository;
+import com.hacka.repositories.TagRepository;
+import com.hacka.repositories.UsuarioRepository;
+
+@Service
+public class PortfolioService {
+
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private TagRepository tagRepository;
+	
+	@Autowired
+	private PortfolioRepository repo;
+	
+	public Portfolio criarPortfolio(Portfolio portfolio) {
+		return repo.save(portfolio);
+	}
+	
+	public List<Portfolio> acharTodos(){
+		return repo.findAll();
+	}
+	
+	public List<Portfolio> meusProjetos(Long id){
+		return repo.meusProjetos(id);
+	}
+	
+	public List<Portfolio> pesquisaTag(Long id){
+		return repo.pesquisaTag(id);
+	}
+	
+	public Portfolio abrirProjeto(Long id){
+		return repo.findById(id).get();
+	}
+}

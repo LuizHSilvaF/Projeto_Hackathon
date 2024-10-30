@@ -1,0 +1,5 @@
+package com.hacka.repositories;
+
+public interface PortfolioRepository {
+
+}

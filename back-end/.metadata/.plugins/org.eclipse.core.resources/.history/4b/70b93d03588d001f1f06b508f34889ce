@@ -1,0 +1,33 @@
+@PostMapping("/criarPortfolio")
+public ResponseEntity<Portfolio> criarPortfolio(
+        @RequestPart("portfolio") PortfolioDTO portfolioDTO,
+        @RequestPart(value = "imagem", required = false) MultipartFile imagem) {
+
+    try {
+        String nomeArquivo = null;
+
+        // Se a imagem foi enviada, salvamos no sistema de arquivos
+        if (imagem != null && !imagem.isEmpty()) {
+            nomeArquivo = System.currentTimeMillis() + "_" + imagem.getOriginalFilename();
+            String diretorio = "imagens/"; // Diretório onde as imagens serão salvas
+            Path caminho = Paths.get(diretorio + nomeArquivo);
+            Files.createDirectories(caminho.getParent()); // Cria diretório, se necessário
+            Files.write(caminho, imagem.getBytes()); // Salva a imagem no sistema de arquivos
+        }
+
+        // Cria o portfólio com o nome do arquivo armazenado
+        Portfolio portfolio = service.criarPortfolio(
+                portfolioDTO.getTitulo(),
+                portfolioDTO.getLink(),
+                portfolioDTO.getDescricao(),
+                portfolioDTO.getCriadorId(),
+                portfolioDTO.getTags(),
+                nomeArquivo
+        );
+
+        return ResponseEntity.ok(portfolio);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.badRequest().build(); // Retorna 400 em caso de erro
+    }
+}

@@ -1,0 +1,31 @@
+package com.hacka.services;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hacka.entities.Usuario;
+import com.hacka.repositories.UsuarioRepository;
+
+@Service
+public class UsuarioService {
+
+	@Autowired
+	private UsuarioRepository repo;
+	
+	public Usuario criarUsuario(Usuario usuario) {
+		return repo.save(usuario);
+	}
+	
+	public boolean login(String email, String senha) {
+		Optional<Usuario> usuario = repo.login(email, senha);
+		if(usuario.isEmpty()) {
+			return false;
+		}
+		else {
+			return true;
+		}
+		
+	}
+}

@@ -1,0 +1,13 @@
+package com.hacka;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class HackatronApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(HackatronApplication.class, args);
+	}
+
+}

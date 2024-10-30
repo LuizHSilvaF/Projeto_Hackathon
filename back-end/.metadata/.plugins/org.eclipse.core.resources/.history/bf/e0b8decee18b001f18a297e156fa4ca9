@@ -1,0 +1,58 @@
+package com.hacka.services;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.hacka.entities.Portfolio;
+import com.hacka.entities.Tag;
+import com.hacka.entities.Usuario;
+import com.hacka.repositories.PortfolioRepository;
+import com.hacka.repositories.TagRepository;
+import com.hacka.repositories.UsuarioRepository;
+
+@Service
+public class PortfolioService {
+
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private TagRepository tagRepository;
+	
+	@Autowired
+	private PortfolioRepository repo;
+	
+	public Portfolio criarPortfolio(String titulo, String link, String descricao, 
+            Long criador, List<Long> tags, MultipartFile imagem) throws IOException{
+		
+		Usuario portCriador = usuarioRepository.findById(criador).get();
+		
+		List<Tag> portTag = tagRepository.findAllById(tags);
+		
+		Portfolio portfolio = new Portfolio();
+		portfolio.setTitulo(titulo);
+        portfolio.setLink(link);
+        portfolio.setDescricao(descricao);
+        portfolio.setCriador(portCriador);
+        portfolio.setTag(portTag);
+        portfolio.setImagem(imagem.getBytes());
+        
+        return repo.save(portfolio);
+	}
+	
+	public List<Portfolio> acharTodos(){
+		return repo.findAll();
+	}
+	
+	public List<Portfolio> meusProjetos(Long id){
+		return repo.meusProjetos(id);
+	}
+	
+	public List<Portfolio> pesquisaTag(Long id){
+		return repo.pesquisaTag(id);
+	}
+}

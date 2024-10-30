@@ -1,0 +1,33 @@
+@Entity
+@Table(name = "tb_portfolio")
+public class Portfolio {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String titulo;
+
+    @ManyToMany
+    private List<Tag> tag;
+
+    private String link;
+
+    @Lob
+    private String descricao;
+
+    private String nomeImagem; // Guarda o nome ou caminho relativo da imagem
+
+    @ManyToOne
+    private Usuario criador;
+
+    public String getNomeImagem() {
+        return nomeImagem;
+    }
+
+    public void setNomeImagem(String nomeImagem) {
+        this.nomeImagem = nomeImagem;
+    }
+
+    // Demais Getters e Setters...
+}

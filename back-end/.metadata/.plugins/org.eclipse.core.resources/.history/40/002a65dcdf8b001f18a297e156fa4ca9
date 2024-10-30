@@ -1,0 +1,19 @@
+package com.hacka.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.hacka.entities.Portfolio;
+
+@Repository
+public interface PortfolioRepository extends JpaRepository<Portfolio, Long>{
+
+	@Query("SELECT p FROM Portfolio p WHERE p.criador.id = :criadorId")
+    List<Portfolio> meusProjetos(Long criadorId);
+	
+	@Query("SELECT t FROM Portfolio t WHERE p.tag.id = :tagId")
+	List<Portfolio> pesquisaTag(Long tagId);
+}
